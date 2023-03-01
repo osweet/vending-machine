@@ -33,6 +33,18 @@ public class InventoryController {
         inventoryService.addProductToMachine(machineId, inventoryItem);
     }
 
+    @GetMapping("/products")
+    @Operation(summary = "Get all products")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retrieved all products",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Product.class)) }),
+            @ApiResponse(responseCode = "404", description = "No products found",
+                    content = @Content)})
+    public List<Product> getProducts() {
+        return inventoryService.getProducts();
+    }
+
     @PostMapping("/products")
     @Operation(summary = "Create product")
     @ApiResponses(value = {
@@ -61,5 +73,4 @@ public class InventoryController {
     public VendingMachine createMachine(@RequestBody VendingMachine vendingMachine) {
         return inventoryService.createMachine(vendingMachine);
     }
-
 }

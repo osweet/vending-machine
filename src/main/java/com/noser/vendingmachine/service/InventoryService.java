@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class InventoryService {
@@ -15,11 +16,17 @@ public class InventoryService {
     private final InMemoryRepository inMemoryRepository = InMemoryRepository.getInstance();
 
     public List<InventoryItem> getInventoryForMachine(String machineId) {
-        return inMemoryRepository.getVendingMachines().get(machineId).getInventory();
+        return inMemoryRepository.getVendingMachines().get(UUID.fromString(machineId)) == null
+                ? null
+                : inMemoryRepository.getVendingMachines().get(UUID.fromString(machineId)).getInventory();
     }
 
     public void addProductToMachine(String machineId, InventoryItem inventoryItem) {
         inMemoryRepository.addInventoryToVendingMachine(machineId, Collections.singletonList(inventoryItem));
+    }
+
+    public List<Product> getProducts() {
+        return inMemoryRepository.getProductList();
     }
 
     public void removeProductFromMachine(String machineId, InventoryItem inventoryItem) {

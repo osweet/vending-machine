@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,14 +18,18 @@ public class InventoryItem {
     private String productId;
 
     @JsonProperty(value = "quantity")
+    @NotNull
+    @Max(value = 10)
     private Integer quantity;
 
     // Cannot be null, should be later than current time
     @JsonProperty(value = "best_before")
+    @NotNull
     private LocalDateTime bestBefore;
 
     // Cannot be null
     @JsonProperty(value = "machine_id")
+    @NotEmpty
     private String machineId;
 
     @Override

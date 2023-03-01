@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @Builder
 public class Product {
@@ -18,6 +20,7 @@ public class Product {
     // Assumed there are no products with price per unit (liter / kg)
     // cannot be null, should be positive
     @JsonProperty(value = "unit_price")
+    @NotNull
     private Float unitPrice;
 
 }
