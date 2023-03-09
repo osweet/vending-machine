@@ -24,11 +24,25 @@ public class InventoryController {
     //TODO: CRUD operations for the products (add, update, remove)
 
     @GetMapping(path = "/{machineId}/inventory", produces = "application/json")
+    @Operation(summary = "Get inventory for machine")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retrieved inventory for machine",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = List.class)) }),
+            @ApiResponse(responseCode = "404", description = "No inventory found for machine",
+                    content = @Content)})
     public List<InventoryItem> getInventoryForMachine(@PathVariable("machineId") String machineId) {
         return inventoryService.getInventoryForMachine(machineId);
     }
 
     @PostMapping("/{machineId}/inventory")
+    @Operation(summary = "Add product to machine")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product added to machine",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = InventoryItem.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content)})
     public void addProductToMachine(@PathVariable("machineId") String machineId, @RequestBody InventoryItem inventoryItem) {
         inventoryService.addProductToMachine(machineId, inventoryItem);
     }
@@ -58,6 +72,20 @@ public class InventoryController {
     }
 
     @DeleteMapping("/{machineId}/inventory")
+    @Operation(summary = "Delete product from machine")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Products deleted"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "Product not found")})
+    public void removeProductFromMachine(@PathVariable("machineId") String machineId, @RequestParam("productId") String productId, @RequestParam("quantity") int quantity) {
+        inventoryService.removeProductFromMachine(machineId, productId, quantity);
+    }
+
+    @DeleteMapping("/{machineId}/inventory")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Products deleted"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "Product not found")})
     public void removeProductFromMachine(@PathVariable("machineId") String machineId, @RequestBody InventoryItem inventoryItem) {
         inventoryService.removeProductFromMachine(machineId, inventoryItem);
     }

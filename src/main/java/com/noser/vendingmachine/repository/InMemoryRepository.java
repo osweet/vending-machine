@@ -6,10 +6,7 @@ import com.noser.vendingmachine.model.VendingMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 // Singleton
@@ -58,6 +55,8 @@ public class InMemoryRepository {
             return;
         }
         if(vendingMachine.getInventory() != null) {
+            Random random = new Random();
+            inventoryItems.forEach(item -> item.setId(random.nextInt(10000 - 1) + 1));
             vendingMachine.getInventory().addAll(inventoryItems);
             log.info("Added inventory to vending machine with Id: " + vendingMachine.getId());
         }

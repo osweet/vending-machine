@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 @Builder
 public class InventoryItem {
 
+    @JsonProperty(value = "id")
+    private Integer id;
+
     // Cannot be null
     @JsonProperty(value = "product_id")
     private String productId;
